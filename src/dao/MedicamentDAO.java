@@ -43,7 +43,7 @@ public class MedicamentDAO {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 medicament = new Medicament(
-                        rs.getInt("id_medicament"),
+                            rs.getInt("id_medicament"),
                         rs.getString("nom"),
                         rs.getString("laboratoire"),
                         rs.getDouble("dosage_mg"),

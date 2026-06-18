@@ -8,13 +8,13 @@ DROP TABLE IF EXISTS medicament;
 
 -- 1. Création de la table 'medicament'
 CREATE TABLE medicament (
-                            id INT PRIMARY KEY, -- ID manuel choisi par le pharmacien (Code CIP / Code-barres)
+                            id_medicament INT PRIMARY KEY, -- ID manuel choisi par le pharmacien (Code CIP / Code-barres)
                             nom VARCHAR(150) NOT NULL,
                             laboratoire VARCHAR(100),
-                            dosage DOUBLE NOT NULL,
-                            prix DOUBLE NOT NULL,
-                            stock INT NOT NULL DEFAULT 0,
-                            ordonnance BOOLEAN NOT NULL DEFAULT FALSE,
+                            dosage_mg DOUBLE NOT NULL,
+                            prix_unitaire DOUBLE NOT NULL,
+                            stock_quantite INT NOT NULL DEFAULT 0,
+                            ordonnance_requise BOOLEAN NOT NULL DEFAULT FALSE,
                             categorie VARCHAR(100)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -36,7 +36,7 @@ CREATE TABLE vente (
 -- =====================================================================
 -- INSERTS DE TEST (Optionnel - pour remplir tes tables au départ)
 -- =====================================================================
-INSERT INTO medicament (id, nom, laboratoire, dosage, prix, stock, ordonnance, categorie) VALUES
+INSERT INTO medicament (id_medicament, nom, laboratoire, dosage_mg, prix_unitaire, stock_quantite, ordonnance_requise, categorie) VALUES
                                                                                               (101, 'Doliprane', 'Sanofi', 1000.0, 15.50, 100, FALSE, 'Analgésique'),
                                                                                               (102, 'Amoxicilline', 'Biogaran', 500.0, 42.00, 30, TRUE, 'Antibiotique');
 
