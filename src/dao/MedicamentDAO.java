@@ -1,35 +1,29 @@
 package dao;
 
 import model.Medicament;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MedicamentDAO {
 
-    //Recuperation de la connection
     private Connection conn = Database.getConnection();
 
-    //La selection de tous les medicament de la base de donnée
     public List<Medicament> getAll() {
         List<Medicament> liste = new ArrayList<>();
         String query = "SELECT * FROM medicament";
 
         try (PreparedStatement ps = conn.prepareStatement(query);
-             ResultSet rs = ps.executeQuery()
-        ) {
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 liste.add(new Medicament(
-                        rs.getInt("id"),
+                        rs.getInt("id_medicament"),
                         rs.getString("nom"),
                         rs.getString("laboratoire"),
-                        rs.getDouble("dosage"),
-                        rs.getDouble("prix"),
-                        rs.getInt("stock"),
-                        rs.getBoolean("ordonnance"),
+                        rs.getDouble("dosage_mg"),
+                        rs.getDouble("prix_unitaire"),
+                        rs.getInt("stock_quantite"),
+                        rs.getBoolean("ordonnance_requise"),
                         rs.getString("categorie")
                 ));
             }
@@ -37,138 +31,138 @@ public class MedicamentDAO {
             System.err.println("Erreur getAll() : " + e.getMessage());
             e.printStackTrace();
         }
-
         return liste;
     }
 
-    //Recuperation d' un médicament à partir de son ID
-    public Medicament getByTD(int id){
-        Medicament medicament = null ;
-        String query = "SELECT * FROM medicament WHERE id = ?";
+    public Medicament getById(int id) {
+        Medicament medicament = null;
+        String query = "SELECT * FROM medicament WHERE id_medicament = ?";
 
-        try(PreparedStatement ps = conn.prepareStatement(query)
-        ){
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 medicament = new Medicament(
-                        rs.getInt("id"),
+                        rs.getInt("id_medicament"),
                         rs.getString("nom"),
                         rs.getString("laboratoire"),
-                        rs.getDouble("dosage"),
-                        rs.getDouble("prix"),
-                        rs.getInt("stock"),
-                        rs.getBoolean("ordonnance"),
+                        rs.getDouble("dosage_mg"),
+                        rs.getDouble("prix_unitaire"),
+                        rs.getInt("stock_quantite"),
+                        rs.getBoolean("ordonnance_requise"),
                         rs.getString("categorie")
                 );
             }
             rs.close();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.err.println("Erreur getById() : " + e.getMessage());
             e.printStackTrace();
         }
-        return medicament ;
+        return medicament;
     }
 
-    //focntion pour ajouter un nouveau médicament
-    public boolean create(Medicament medicament){
-        String query = "INSERT INTO medicament (nom, laboratoire, dosage, prix, stock, ordonnance, categorie) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try(PreparedStatement ps = conn.prepareStatement(query,java.sql.Statement.RETURN_GENERATED_KEYS)){
-            ps.setString(1, medicament.getNom());
-            ps.setString(2,medicament.getLaboratoire());
-            ps.setDouble(3,medicament.getDosage());
-            ps.setDouble(4,medicament.getPrix());
-            ps.setInt(5, medicament.getStock());
-            ps.setBoolean(6, medicament.getOrdonnance());
-            ps.setString(7, medicament.getCategorie());
-
-            int lignes = ps.executeUpdate();
-            if (lignes > 0) {
-                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        // On met à jour l'objet Java avec le vrai ID de la base
-                        medicament.setId(generatedKeys.getInt(1));
-                    }
-                }
-                System.out.println("Médicament inséré avec succès ! ID généré : " + medicament.getId());
-                return true;
-            }
-            return false ;
-        }catch (SQLException e){
-            System.err.println("Erreur create() : " + e.getMessage());
-            e.printStackTrace();
-            return false ;
-        }
-    }
-
-    //Pour modifier une colonne
-    public boolean update(Medicament medicament){
-        String query = "UPDATE medicament SET nom=?, laboratoire=?, dosage=?, prix=?, stock=?, ordonnance=?, categorie=? WHERE id=?";
+    public boolean ajouter(Medicament m) {
+        String query = "INSERT INTO medicament (id_medicament, nom, laboratoire, dosage_mg, prix_unitaire, stock_quantite, ordonnance_requise, categorie) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setString(1, medicament.getNom());
-            ps.setString(2, medicament.getLaboratoire());
-            ps.setDouble(3, medicament.getDosage());
-            ps.setDouble(4, medicament.getPrix());
-            ps.setInt(5, medicament.getStock());
-            ps.setBoolean(6, medicament.getOrdonnance());
-            ps.setString(7, medicament.getCategorie());
-            ps.setInt(8, medicament.getId());
-
-            int lignes = ps.executeUpdate();
-            return lignes > 0; // true = modification réussie
-
+            ps.setInt(1, m.getId());
+            ps.setString(2, m.getNom());
+            ps.setString(3, m.getLaboratoire());
+            ps.setDouble(4, m.getDosage());
+            ps.setDouble(5, m.getPrix());
+            ps.setInt(6, m.getStock());
+            ps.setBoolean(7, m.isOrdonnance());
+            ps.setString(8, m.getCategorie());
+            ps.executeUpdate();
+            return true;
         } catch (SQLException e) {
-            System.err.println("Erreur update() : " + e.getMessage());
+            System.err.println("Erreur ajouter() : " + e.getMessage());
             e.printStackTrace();
             return false;
         }
     }
 
-    //Supression d'un médicament à partire de son ID
-    public boolean delete(int id){
-        String query = "DELETE FROM medicament WHERE id = ?";
-        try (PreparedStatement ps = conn.prepareStatement(query)){
-            ps.setInt(1,id);
-
-            int lignes = ps.executeUpdate();
-            return lignes>0 ;
-
-        }catch (SQLException e){
-            System.err.println("Erreur delete() : " + e.getMessage());
+    public boolean modifier(Medicament m) {
+        String query = "UPDATE medicament SET nom=?, laboratoire=?, dosage_mg=?, prix_unitaire=?, stock_quantite=?, ordonnance_requise=?, categorie=? WHERE id_medicament=?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, m.getNom());
+            ps.setString(2, m.getLaboratoire());
+            ps.setDouble(3, m.getDosage());
+            ps.setDouble(4, m.getPrix());
+            ps.setInt(5, m.getStock());
+            ps.setBoolean(6, m.isOrdonnance());
+            ps.setString(7, m.getCategorie());
+            ps.setInt(8, m.getId());
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Erreur modifier() : " + e.getMessage());
             e.printStackTrace();
             return false;
         }
     }
 
-    //Chercher un medicament a partire de son nom
-    public List<Medicament> search(String nom){
-        List<Medicament> liste = new ArrayList<>();
-        String query = "SELECT * FROM medicament WHERE nom = ?";
-        try(PreparedStatement ps = conn.prepareStatement(query)){
-            ps.setString(1, nom);
+    public boolean supprimer(int id) {
+        String query = "DELETE FROM medicament WHERE id_medicament = ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Erreur supprimer() : " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<Medicament> rechercher(String nom) {
+        List<Medicament> resultats = new ArrayList<>();
+        String query = "SELECT * FROM medicament WHERE nom LIKE ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, "%" + nom + "%");
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                liste.add(new Medicament(
-                        rs.getInt("id"),
+            while (rs.next()) {
+                resultats.add(new Medicament(
+                        rs.getInt("id_medicament"),
                         rs.getString("nom"),
                         rs.getString("laboratoire"),
-                        rs.getDouble("dosage"),
-                        rs.getDouble("prix"),
-                        rs.getInt("stock"),
-                        rs.getBoolean("ordonnance"),
+                        rs.getDouble("dosage_mg"),
+                        rs.getDouble("prix_unitaire"),
+                        rs.getInt("stock_quantite"),
+                        rs.getBoolean("ordonnance_requise"),
                         rs.getString("categorie")
                 ));
-
             }
-
-
-        }catch (SQLException e){
-            System.err.println("Erreur search(String nom) : " + e.getMessage());
+            rs.close();
+        } catch (SQLException e) {
+            System.err.println("Erreur rechercher() : " + e.getMessage());
             e.printStackTrace();
         }
-        return liste ;
+        return resultats;
     }
 
-
-
+    public List<Medicament> getStockFaible(int seuil) {
+        List<Medicament> resultats = new ArrayList<>();
+        String query = "SELECT * FROM medicament WHERE stock_quantite <= ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, seuil);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                resultats.add(new Medicament(
+                        rs.getInt("id_medicament"),
+                        rs.getString("nom"),
+                        rs.getString("laboratoire"),
+                        rs.getDouble("dosage_mg"),
+                        rs.getDouble("prix_unitaire"),
+                        rs.getInt("stock_quantite"),
+                        rs.getBoolean("ordonnance_requise"),
+                        rs.getString("categorie")
+                ));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.err.println("Erreur getStockFaible() : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return resultats;
+    }
 }
