@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.MedicamentController"
+      spacing="15" styleClass="panel">
+
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+    <Label text="💊 Gestion des Médicaments" styleClass="title"/>
+
+    <HBox spacing="10">
+        <TextField fx:id="searchField" promptText="🔍 Rechercher par nom..." HBox.hgrow="ALWAYS"/>
+        <Button text="Rechercher" onAction="#rechercher"/>
+        <Button text="Réinitialiser" onAction="#reinitialiserRecherche" styleClass="button-warning"/>
+    </HBox>
+
+    <TableView fx:id="tableMedicaments" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn text="ID" fx:id="colId" prefWidth="50"/>
+            <TableColumn text="Nom" fx:id="colNom" prefWidth="150"/>
+            <TableColumn text="Prix (MAD)" fx:id="colPrix" prefWidth="80"/>
+            <TableColumn text="Stock" fx:id="colStock" prefWidth="80"/>
+        </columns>
+    </TableView>
+
+    <GridPane hgap="15" vgap="15" style="-fx-padding: 15; -fx-background-color: #f8f9fa; -fx-border-radius: 5; -fx-background-radius: 5;">
+        <Label text="ID :" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="idField" promptText="Code CIP" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="150"/>
+
+        <Label text="Nom :" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="nomField" promptText="Nom" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="200"/>
+
+        <Label text="Prix (MAD) :" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="prixField" promptText="0.00" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Stock :" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="stockField" promptText="0" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <HBox spacing="10" GridPane.rowIndex="4" GridPane.columnIndex="1">
+            <Button text="➕ Ajouter" onAction="#ajouterMedicament" styleClass="button-success"/>
+            <Button text="✏️ Modifier" onAction="#modifierMedicament"/>
+            <Button text="🗑️ Supprimer" onAction="#supprimerMedicament" styleClass="button-danger"/>
+            <Button text="⬅️ Annuler" onAction="#annulerFormulaire" styleClass="button-warning"/>
+        </HBox>
+
+        <Label fx:id="idLabel" text="" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+    </GridPane>
+
+</VBox>

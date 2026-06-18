@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.MainController"
+            stylesheets="@style.css">
+
+    <top>
+        <MenuBar>
+            <Menu text="📁 Fichier">
+                <MenuItem text="📤 Exporter Médicaments CSV" onAction="#exporterMedicamentsCSV"/>
+                <MenuItem text="📤 Exporter Ventes CSV" onAction="#exporterVentesCSV"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="🚪 Quitter" onAction="#quitter"/>
+            </Menu>
+            <Menu text="📋 Navigation">
+                <MenuItem text="💊 Médicaments" onAction="#goToMedicaments"/>
+                <MenuItem text="🛒 Ventes" onAction="#goToVentes"/>
+                <MenuItem text="📊 Statistiques" onAction="#goToStats"/>
+            </Menu>
+            <Menu text="❓ Aide">
+                <MenuItem text="À propos" onAction="#aPropos"/>
+            </Menu>
+        </MenuBar>
+    </top>
+
+    <center>
+        <TabPane fx:id="tabPane">
+            <Tab text="💊 Médicaments" closable="false">
+                <fx:include source="medicaments.fxml"/>
+            </Tab>
+            <Tab text="🛒 Ventes" closable="false">
+                <fx:include source="ventes.fxml"/>
+            </Tab>
+            <Tab text="📊 Statistiques" closable="false">
+                <fx:include source="statistiques.fxml"/>
+            </Tab>
+        </TabPane>
+    </center>
+
+</BorderPane>

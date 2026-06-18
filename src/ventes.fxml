@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.VenteController"
+      spacing="15" styleClass="panel">
+
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+    <Label text="🛒 Enregistrer une Vente" styleClass="title"/>
+
+    <GridPane hgap="15" vgap="15">
+        <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+
+        <Label text="Médicament :" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="medicamentCombo" promptText="Choisir..." GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="300"/>
+
+        <Label text="Quantité :" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Spinner fx:id="quantiteSpinner" initialValue="1" min="1" max="100" amountToStepBy="1" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Date :" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="datePicker" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Total :" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <Label fx:id="totalLabel" text="0.00 MAD" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Action :" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <HBox spacing="10" GridPane.rowIndex="4" GridPane.columnIndex="1">
+            <Button text="💳 Vendre" onAction="#enregistrerVente" styleClass="button-success"/>
+            <Button text="⬅️ Annuler" onAction="#annulerVente" styleClass="button-warning"/>
+        </HBox>
+    </GridPane>
+
+    <Separator/>
+
+    <Label text="📋 Historique des Ventes" styleClass="subtitle"/>
+    <ListView fx:id="listeVentes" VBox.vgrow="ALWAYS"/>
+
+</VBox>

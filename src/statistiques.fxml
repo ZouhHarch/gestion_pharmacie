@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.StatistiquesController"
+      spacing="15" styleClass="panel">
+
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+    <Label text="📊 Tableau de Bord" styleClass="title"/>
+
+    <HBox spacing="20" alignment="CENTER">
+        <VBox alignment="CENTER" styleClass="stat-card">
+            <Label text="💊 Total Médicaments" styleClass="stat-label"/>
+            <Label fx:id="totalMedicaments" text="0" styleClass="stat-value blue"/>
+        </VBox>
+        <VBox alignment="CENTER" styleClass="stat-card">
+            <Label text="⚠️ Stock Faible" styleClass="stat-label"/>
+            <Label fx:id="stockFaible" text="0" styleClass="stat-value red"/>
+        </VBox>
+        <VBox alignment="CENTER" styleClass="stat-card">
+            <Label text="💰 Chiffre d'Affaires" styleClass="stat-label"/>
+            <Label fx:id="chiffreAffaires" text="0.00 MAD" styleClass="stat-value green"/>
+        </VBox>
+        <VBox alignment="CENTER" styleClass="stat-card">
+            <Label text="🛒 Ventes Total" styleClass="stat-label"/>
+            <Label fx:id="nombreVentes" text="0" styleClass="stat-value orange"/>
+        </VBox>
+    </HBox>
+
+    <Label text="📈 Ventes par Médicament" styleClass="subtitle"/>
+    <BarChart fx:id="ventesChart" VBox.vgrow="ALWAYS">
+        <xAxis><CategoryAxis label="Médicaments"/></xAxis>
+        <yAxis><NumberAxis label="Quantité vendue"/></yAxis>
+    </BarChart>
+
+</VBox>
