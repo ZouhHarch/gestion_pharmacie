@@ -142,7 +142,7 @@ Git & GitHub	Versionnage et collaboration
 
 📝 **Développé par**
 
-Zouhir Herchaoui	Back-end (DAO, Modèles, Base de données)
+Zouhir Harchaoui	Back-end (DAO, Modèles, Base de données)
 Mohamed-Taha Hrimache	Front-end (FXML, CSS, Contrôleurs, UI)
 Encadrante : Mme Douae EL HILA
 
@@ -170,7 +170,7 @@ Pour toute question, vous pouvez contacter les développeurs à l'adresse suivan
 
 medtahahrm@gmail.com
 
-zouhir..@gmail.com
+harchaouizouhir2005@gmail.com
 
 Merci d'avoir utilisé notre application ! 🎉
 
