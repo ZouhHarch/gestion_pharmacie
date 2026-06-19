@@ -111,22 +111,6 @@ java --module-path "C:\javafx-sdk-17\lib" --add-modules javafx.controls,javafx.f
 
 ---
 
-🖥️ **Captures d'écran**
-
-Fenêtre principale
-..
-
-Gestion des médicaments
-..
-
-Gestion des ventes
-..
-
-Statistiques
-..
-
----
-
 🛠️ **Technologies utilisées**
 
 Java 17	Langage de programmation
@@ -191,4 +175,4 @@ private static final String PASSWORD = "votre_mot_de_passe";
 
 🎯 **Vidéo de démonstration**
 
-Lien vers la vidéo de démonstration : ..
+Lien vers la vidéo de démonstration : [..](https://drive.google.com/file/d/1kKrVIJ0pkQaK0d0TeoIoDIuCvpzNkHLl/view?usp=sharing)
